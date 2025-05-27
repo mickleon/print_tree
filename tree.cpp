@@ -88,13 +88,17 @@ void Tree::insert(int value) {
 }
 
 Node* Tree::find(int value) {
-    if (!Tree::root || Tree::root->inf == value) return Tree::root;
-    if (value < Tree::root->inf) return Tree::find(Tree::root->left, value);
+    if (!Tree::root || Tree::root->inf == value)
+        return Tree::root;
+    if (value < Tree::root->inf)
+        return Tree::find(Tree::root->left, value);
     return Tree::find(Tree::root->right, value);
 }
 Node* Tree::find(Node *&x, int value) {
-    if (!x || x->inf == value) return x;
-    if (value < x->inf) return Tree::find(x->left, value);
+    if (!x || x->inf == value)
+        return x;
+    if (value < x->inf)
+        return Tree::find(x->left, value);
     return Tree::find(x->right, value);
 }
 
@@ -104,7 +108,8 @@ void Tree::update_height() {
 
 int Tree::calculate_height(Node* x) {
     if (!x) return 0;
-    return 1 + std::max(Tree::calculate_height(x->left), Tree::calculate_height(x->right));
+    return 1 + std::max(Tree::calculate_height(x->left), 
+    Tree::calculate_height(x->right));
 }
 
 void Tree::erase(Node *&x) {
@@ -158,25 +163,21 @@ void Tree::make_array(Node *&x, int depth = 0, int count = 1) {
         Tree::make_array(x->right, depth + 1, count*2+1);
 }
 
-// Print the tree
 void Tree::print(){
     int r = log10(Tree::max()->inf) + 1;
     Tree::array.assign(Tree::height, {});
     Tree::make_array(Tree::root);
     // Space at the beginning of each level
     int init_space = (r + 1)*(1<<(Tree::height - 2));
-    // Iterate through levels
     for (int depth = 0; depth <= Tree::height - 1; depth++) {
         print_space(init_space - r);
         int prev_offset = 0;
         // Space between nodes at this level
         int space = init_space*2 - r;
         if (space == 0) space = 1;
-        // Iterate through nodes at the level
         for (auto &node : Tree::array[depth]) {
-            // Calculate indentation to the node if the tree is incomplete
+            // Calculate indentation if the tree is incomplete
             print_space((space + r)*(node.second - prev_offset));
-            // Print the node
             if (node.first->color == 'r')
                 printf("\033[31m%*d\033[m", r, node.first->inf);
             else

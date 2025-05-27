@@ -13,6 +13,30 @@ int main() {
         tr.insert(x);
     }
     tr.print();
+    int c;
+    while (true) {
+        cout << "1. Insert\n2. Erase\n3. Quit\n> ";
+        cin >> c;
+        switch (c) {
+        case 1: {
+            cout << "Node to insert: ";
+            cin >> x;
+            tr.insert(x);
+            tr.print();
+            break;
+        }
+        case 2: {
+            cout << "Node to erase: ";
+            cin >> x;
+            Node *y = tr.find(x);
+            if (y) tr.erase(y);
+            tr.print();
+            break;
+        }
+        case 3: return 0;
+        default: break;
+        }
+    }
 }
 
 /*
