@@ -20,12 +20,17 @@ public:
     Node* max(Node *&x);
     Node* min();
     Node* min(Node *&x);
+    Node* find(int value);
+    Node* find(Node *&x, int value);
     void insert(int value);
+    void erase(Node *&x);
     void print();
 private:
     std::vector<std::vector<std::pair<Node*, int>>> array;
     int height;
     void make_array(Node *&x, int depth, int count);
+    void update_height();
+    int calculate_height(Node* node);
     void clear(Node* x);
 };
 

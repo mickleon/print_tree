@@ -87,6 +87,68 @@ void Tree::insert(int value) {
     }
 }
 
+Node* Tree::find(int value) {
+    if (!Tree::root || Tree::root->inf == value) return Tree::root;
+    if (value < Tree::root->inf) return Tree::find(Tree::root->left, value);
+    return Tree::find(Tree::root->right, value);
+}
+Node* Tree::find(Node *&x, int value) {
+    if (!x || x->inf == value) return x;
+    if (value < x->inf) return Tree::find(x->left, value);
+    return Tree::find(x->right, value);
+}
+
+void Tree::update_height() {
+    Tree::height = Tree::calculate_height(Tree::root);
+}
+
+int Tree::calculate_height(Node* x) {
+    if (!x) return 0;
+    return 1 + std::max(Tree::calculate_height(x->left), Tree::calculate_height(x->right));
+}
+
+void Tree::erase(Node *&x) {
+    Node *p = x->parent;
+    if (!x->left && !x->right) { // No children
+        if (!p) { // Only one node in tree
+            Tree::root = nullptr;
+            Tree::height = 0;
+        }
+        else {
+            if (p->left == x) p->left = nullptr;
+            else if (p->right == x) p->right = nullptr;
+            Tree::update_height();
+        }
+        delete x;
+    }
+    else if (!x->left || !x->right) { // 1 child
+        Node *child = x->left ? x->left : x->right;
+        if (!p) { // Root
+            Tree::root = child;
+            Tree::update_height();
+        }
+        else {
+            if (p->left == x) p->left = child;
+            else if (p->right == x) p->right = child;
+            Tree::update_height();
+        }
+        child->parent = p;
+        delete x;
+    }
+    else { // 2 childer
+        Node *succ = Tree::min(x->right);
+        x->inf = succ->inf;
+        if (succ->parent->left == succ) 
+            succ->parent->left = succ->right;
+        else
+            succ->parent->right = succ->right;
+        if (succ->right)
+            succ->right->parent = succ->parent;
+        delete succ;
+        Tree::update_height();
+    }
+}
+
 // Traversal with depth calculation and node offset from the left edge of the level
 void Tree::make_array(Node *&x, int depth = 0, int count = 1) {
     Tree::array[depth].push_back({x, count - (1<<depth)});
