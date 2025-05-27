@@ -2,16 +2,17 @@
 #include "tree.h"
 
 int main() {
-    Tree *tr = nullptr;
-    int n;
-    std::cin >> n;
-    int x, max = 0;
+    using std::cout; using std::cin;
+    Tree tr;
+    cout << "Number of nodes: ";
+    int n, x;
+    cin >> n;
+    cout << "Nodes: ";
     for (int i = 0; i < n; i++) {
-        std::cin >> x;
-        if (x > max) max = x;
-        insert(tr, x);
+        cin >> x;
+        tr.insert(x);
     }
-    print_tree(tr);
+    tr.print();
 }
 
 /*
