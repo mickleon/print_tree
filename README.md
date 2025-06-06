@@ -1,5 +1,5 @@
 # What is this?
-There is C++ class for binary tree, that have method for **console output** for tree **without any specific libraries**.
+There is C++ class for binary tree, that have method for **console output** for tree **without any specific libraries**. The program correctly outputs numbers **with any number of digits**.
 
 # What is it for?
 This is a training example of a binary search tree. This may be necessary for those who study C++ and dynamic structures such as trees.
